@@ -1,4 +1,7 @@
 const express = require("express");
+const config = require('./utils/config')
+const logger = require('./utils/logger')
+
 const multer = require("multer");
 const sharp = require("sharp");
 const fs = require("fs");
@@ -29,4 +32,6 @@ app.post("/", upload.single("picture"), async (req, res) => {
   return res.json({ link });
 });
 
-app.listen(3001);
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
+})
