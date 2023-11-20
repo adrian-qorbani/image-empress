@@ -9,7 +9,7 @@ const requestLogger = (request, response, next) => {
 };
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "Error 404: Unknown Endpoint." });
+  response.status(401).send({ error: "Error 401: Unauthorized." });
 };
 
 const errorHandler = (error, request, response, next) => {

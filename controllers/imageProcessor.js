@@ -13,7 +13,7 @@ compressorRouters.get("/", (request, response) => {
 });
 
 // Main Image Upload Route
-compressorRouters.post("/imageapi", upload.single("picture"), async (request, response) => {
+compressorRouters.post("/imageapi", upload.single("image"), async (request, response) => {
   fs.access("./uploads", (error) => {
     if (error) {
       fs.mkdirSync("./uploads");
@@ -29,9 +29,5 @@ compressorRouters.post("/imageapi", upload.single("picture"), async (request, re
   return response.json({ link });
 });
 
-// Access Image Route
-// compressorRouters.get("/imageapi", (request, response) => {
-//   return res.json({ message: "Hello Server." });
-// });
 
 module.exports = compressorRouters;
