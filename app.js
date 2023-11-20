@@ -8,7 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use(express.static("./uploads"));
+// allows using uploads dir
+// app.use(express.static("uploads"));
+app.use('/static', express.static('uploads'))
+
 app.use("/", compressorRouter);
 
 // app.use(morgan('combined'))
