@@ -45,9 +45,21 @@ compressorRouters.post(
     await sharp(buffer)
       .webp({ quality: 80 })
       .toFile("./uploads/" + ref);
-    const link = `http://localhost:3001/imageapi/${ref}`;
+    const link = `http://localhost:3001/uploads/${ref}`;
     return response.json({ link });
   }
 );
+
+compressorRouters.get("/uploads/:filename", (request, response) => {
+  const { filename } = request.params;
+  const filePath = `./uploads/${filename}`;
+
+  response.download(filePath, (error) => {
+    if (error) {
+      console.log("error is:", error);
+      response.status(500).json({ message: "Error downloading file." });
+    }
+  });
+});
 
 module.exports = compressorRouters;
