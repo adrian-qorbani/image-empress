@@ -2,6 +2,7 @@ const compressorRouters = require("express").Router();
 const multer = require("multer");
 const sharp = require("sharp");
 const fs = require("fs");
+const path = require("path");
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -29,7 +30,6 @@ compressorRouters.post(
   "/imageapi",
   upload.single("image"),
   async (request, response) => {
-
     if (!request.file) {
       return response.status(401).send({
         message: "No file received or unauthorized file type",
@@ -43,14 +43,26 @@ compressorRouters.post(
       }
     });
 
-    const { buffer, originalname } = request.file;
+    const { buffer, originalname, size } = request.file;
+
+    const originalSizeKB = Math.round(size / 1024);
     const timestamp = new Date().toISOString();
     const ref = `${timestamp}-${originalname}.webp`;
     await sharp(buffer)
       .webp({ quality: 80 })
       .toFile("./uploads/" + ref);
     const link = `http://localhost:3001/uploads/${ref}`;
-    return response.json({ link });
+
+    const compressedImageStats = fs.statSync("./uploads/" + ref);
+    const compressedSizeKB = Math.round(compressedImageStats.size / 1024); 
+
+    // return response.json({ link });
+
+    return response.json({
+      imageUrl: link,
+      originalSize: originalSizeKB,
+      compressedSize: compressedSizeKB
+    });
   }
 );
 

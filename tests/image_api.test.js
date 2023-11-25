@@ -11,9 +11,9 @@ describe("Image Compression Endpoint", () => {
       .attach("image", `${__dirname}/dummies/dummy_img.png`)
       .expect(200)
       .expect("Content-Type", /application\/json/);
-    const downloadLink = serverResponse.body.link;
+    const downloadContent = serverResponse.body
+    const downloadLink = serverResponse.body.imageUrl;
     expect(downloadLink).toBeDefined();
-    console.log("download link is:", downloadLink);
   });
 
   test("Should throw an error on illegal non-image formatted files", async () => {
