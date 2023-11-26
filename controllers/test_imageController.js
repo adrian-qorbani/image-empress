@@ -56,12 +56,13 @@ compressorRouters.post(
     const compressedImageStats = fs.statSync("./uploads/" + ref);
     const compressedSizeKB = Math.round(compressedImageStats.size / 1024); 
 
-    // return response.json({ link });
+    const sizeComparisonKB = (Math.floor((100/originalSizeKB)*compressedSizeKB)- 100)
 
     return response.json({
       imageUrl: link,
       originalSize: originalSizeKB,
-      compressedSize: compressedSizeKB
+      compressedSize: compressedSizeKB,
+      comparison: sizeComparisonKB
     });
   }
 );
