@@ -44,31 +44,45 @@ compressorRouters.post(
     });
 
     const { buffer, originalname, size } = request.file;
+    const { quality, format, width, height } = request.body;
 
-    const originalSizeKB = Math.round(size / 1024);
-    const timestamp = new Date().toISOString();
-    const ref = `${timestamp}-${originalname}.webp`;
-    await sharp(buffer)
-      .webp({ quality: 80 })
-      .toFile("./uploads/" + ref);
-    const link = `http://localhost:3001/uploads/${ref}`;
+    // console.log("request is:", request)
+    console.log("request body is:", request.body);
+    console.log("request file is:", request.file);
 
-    const compressedImageStats = fs.statSync("./uploads/" + ref);
-    const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
+    try {
+      const originalSizeKB = Math.round(size / 1024);
 
-    const sizeComparisonKB = Math.floor(
-      ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
-    ); //ver2
+      const timestamp = new Date().toISOString();
 
-    console.log("original:", originalSizeKB);
-    console.log("compressed:", compressedSizeKB);
-    console.log("%?:", sizeComparisonKB);
-    return response.json({
-      imageUrl: link,
-      originalSize: originalSizeKB,
-      compressedSize: compressedSizeKB,
-      comparison: sizeComparisonKB,
-    });
+      const ref = `${timestamp}-${originalname}.${format}`;
+
+      await sharp(buffer)
+        .toFormat(format, { quality: parseInt(quality) })
+        .toFile("./uploads/" + ref);
+      const link = `http://localhost:3001/uploads/${ref}`;
+
+      const compressedImageStats = fs.statSync("./uploads/" + ref);
+      const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
+
+      const sizeComparisonKB = Math.floor(
+        ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
+      ); //ver2
+
+      console.log("original size in KB:", originalSizeKB);
+      console.log("compressed size in KB:", compressedSizeKB);
+
+      response.set({ "Content-Type": `image/${format}` });
+      return response.json({
+        imageUrl: link,
+        originalSize: originalSizeKB,
+        compressedSize: compressedSizeKB,
+        comparison: sizeComparisonKB,
+      });
+    } catch (error) {
+      console.error("Error processing image:", error);
+      response.status(500).json({ error: "Error processing the image." });
+    }
   }
 );
 

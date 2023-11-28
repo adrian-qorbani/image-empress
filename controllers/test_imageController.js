@@ -45,25 +45,44 @@ compressorRouters.post(
 
     const { buffer, originalname, size } = request.file;
 
-    const originalSizeKB = Math.round(size / 1024);
-    const timestamp = new Date().toISOString();
-    const ref = `${timestamp}-${originalname}.webp`;
-    await sharp(buffer)
-      .webp({ quality: 80 })
-      .toFile("./uploads/" + ref);
-    const link = `http://localhost:3001/uploads/${ref}`;
+    // console.log("request is:", request)
+    console.log("request body is:", request.body)
+    try {
 
-    const compressedImageStats = fs.statSync("./uploads/" + ref);
-    const compressedSizeKB = Math.round(compressedImageStats.size / 1024); 
+      const originalSizeKB = Math.round(size / 1024);
 
-    const sizeComparisonKB = (Math.floor((100/originalSizeKB)*compressedSizeKB)- 100)
+      const timestamp = new Date().toISOString();
 
-    return response.json({
-      imageUrl: link,
-      originalSize: originalSizeKB,
-      compressedSize: compressedSizeKB,
-      comparison: sizeComparisonKB
-    });
+      const ref = `${timestamp}-${originalname}.webp`;
+
+      // console.log("quality is:", request.body.quality)
+      // console.log("type of quality is", typeof(parseInt(request.body.quality)))
+
+      await sharp(buffer)
+        .webp({ quality: 80 })
+        .toFile("./uploads/" + ref);
+      const link = `http://localhost:3001/uploads/${ref}`;
+
+      const compressedImageStats = fs.statSync("./uploads/" + ref);
+      const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
+
+      const sizeComparisonKB = Math.floor(
+        ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
+      ); //ver2
+
+      console.log("original size in KB:", originalSizeKB)
+      console.log("compressed size in KB:", compressedSizeKB)
+
+      return response.json({
+        imageUrl: link,
+        originalSize: originalSizeKB,
+        compressedSize: compressedSizeKB,
+        comparison: sizeComparisonKB,
+      });
+    } catch (error) {
+      console.error("Error processing image:", error);
+      response.status(500).json({ error: "Error processing the image." });
+    }
   }
 );
 

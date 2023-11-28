@@ -1,7 +1,8 @@
 const express = require("express");
 const middleware = require("./utils/middleware");
 // const compressorRouter = require("./controllers/imageProcessor");
-const compressorRouter = require("./controllers/test_imageController");
+// const compressorRouter = require("./controllers/test_imageController");
+const compressorRouter = require("./controllers/test2_imageController");
 
 // const morgan = require('morgan')
 const cors = require('cors')
