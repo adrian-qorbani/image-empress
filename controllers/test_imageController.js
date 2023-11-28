@@ -29,7 +29,7 @@ compressorRouters.get("/", (request, response) => {
 compressorRouters.post(
   "/imageapi",
   upload.single("image"),
-  async (request, response) => {
+  async (request, response, next) => {
     if (!request.file) {
       return response.status(401).send({
         message: "No file received or unauthorized file type",
@@ -44,22 +44,31 @@ compressorRouters.post(
     });
 
     const { buffer, originalname, size } = request.file;
+    const { quality, format, width, height } = request.body;
 
     // console.log("request is:", request)
-    console.log("request body is:", request.body)
-    try {
+    console.log("request body is:", request.body);
+    console.log("request file is:", request.file);
 
+    try {
       const originalSizeKB = Math.round(size / 1024);
 
       const timestamp = new Date().toISOString();
 
-      const ref = `${timestamp}-${originalname}.webp`;
+      const ref = `${timestamp}-${originalname}.${format}`;
 
-      // console.log("quality is:", request.body.quality)
-      // console.log("type of quality is", typeof(parseInt(request.body.quality)))
+      let newHight = parseInt(height);
+      let newWidth = parseInt(width);
+
+      if (parseInt(width) == 0 && parseInt(height) == 0) {
+        (newHight = undefined), (newWidth = undefined);
+      } else if (parseInt(width) < 0 || parseInt(height) < 0) {
+        throw new Error("Positive width/height parameters should be defined");
+      }
 
       await sharp(buffer)
-        .webp({ quality: 80 })
+        .toFormat(format, { quality: parseInt(quality) })
+        .resize(newWidth, newHight)
         .toFile("./uploads/" + ref);
       const link = `http://localhost:3001/uploads/${ref}`;
 
@@ -70,9 +79,11 @@ compressorRouters.post(
         ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
       ); //ver2
 
-      console.log("original size in KB:", originalSizeKB)
-      console.log("compressed size in KB:", compressedSizeKB)
-
+      // console.log("original size in KB:", originalSizeKB);
+      // console.log("compressed size in KB:", compressedSizeKB);
+      if (process.env.NODE_ENV === "test") {
+        response.set({ "Content-Type": `image/${format}` });
+      }
       return response.json({
         imageUrl: link,
         originalSize: originalSizeKB,

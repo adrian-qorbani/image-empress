@@ -57,8 +57,14 @@ compressorRouters.post(
 
       const ref = `${timestamp}-${originalname}.${format}`;
 
+      if (parseInt(width) > 0 && parseInt(height) > 0) {
+        // pipeline.resize(parseInt(width), parseInt(height));
+        console.log("YOLO")
+      }
+
       await sharp(buffer)
         .toFormat(format, { quality: parseInt(quality) })
+        .resize(parseInt(width), parseInt(height))
         .toFile("./uploads/" + ref);
       const link = `http://localhost:3001/uploads/${ref}`;
 

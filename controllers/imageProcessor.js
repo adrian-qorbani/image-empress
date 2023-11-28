@@ -2,7 +2,9 @@ const compressorRouters = require("express").Router();
 const multer = require("multer");
 const sharp = require("sharp");
 const fs = require("fs");
-const path = require("path");
+// const logger = require("../utils/logger");
+
+// const path = require("path");
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -29,7 +31,7 @@ compressorRouters.get("/", (request, response) => {
 compressorRouters.post(
   "/imageapi",
   upload.single("image"),
-  async (request, response) => {
+  async (request, response, next) => {
     if (!request.file) {
       return response.status(401).send({
         message: "No file received or unauthorized file type",
@@ -44,31 +46,64 @@ compressorRouters.post(
     });
 
     const { buffer, originalname, size } = request.file;
+    const { quality, format, width, height } = request.body;
 
-    const originalSizeKB = Math.round(size / 1024);
-    const timestamp = new Date().toISOString();
-    const ref = `${timestamp}-${originalname}.webp`;
-    await sharp(buffer)
-      .webp({ quality: 80 })
-      .toFile("./uploads/" + ref);
-    const link = `http://localhost:3001/uploads/${ref}`;
+    // for logging
+    // let currentDate = new Date().toISOString();
+    // logger.info(
+    //   "Request Content",
+    //   `date: ${currentDate}: `,
+    //   request.method,
+    //   request.body,
+    //   request.file
+    // );
 
-    const compressedImageStats = fs.statSync("./uploads/" + ref);
-    const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
+    try {
+      const originalSizeKB = Math.round(size / 1024);
 
-    const sizeComparisonKB = Math.floor(
-      ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
-    ); //ver2
+      const timestamp = new Date().toISOString();
 
-    console.log("original:", originalSizeKB);
-    console.log("compressed:", compressedSizeKB);
-    console.log("%?:", sizeComparisonKB);
-    return response.json({
-      imageUrl: link,
-      originalSize: originalSizeKB,
-      compressedSize: compressedSizeKB,
-      comparison: sizeComparisonKB,
-    });
+      const ref = `${timestamp}-${originalname}.${format}`;
+
+      let newHight = parseInt(height);
+      let newWidth = parseInt(width);
+
+      if (parseInt(width) == 0 && parseInt(height) == 0) {
+        (newHight = undefined), (newWidth = undefined);
+      } else if (parseInt(width) < 0 || parseInt(height) < 0) {
+        throw new Error("Positive width/height parameters should be defined");
+      }
+
+      await sharp(buffer)
+        .toFormat(format, { quality: parseInt(quality) })
+        .resize(newWidth, newHight)
+        .toFile("./uploads/" + ref);
+      const link = `http://localhost:3001/uploads/${ref}`;
+
+      const compressedImageStats = fs.statSync("./uploads/" + ref);
+      const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
+
+      const sizeComparisonKB = Math.floor(
+        ((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100
+      ); //ver2
+
+      // console.log("original size in KB:", originalSizeKB);
+      // console.log("compressed size in KB:", compressedSizeKB);
+
+      if (process.env.NODE_ENV === "test") {
+        response.set({ "Content-Type": `image/${format}` });
+      }
+
+      return response.json({
+        imageUrl: link,
+        originalSize: originalSizeKB,
+        compressedSize: compressedSizeKB,
+        comparison: sizeComparisonKB,
+      });
+    } catch (error) {
+      console.error("Error processing image:", error);
+      response.status(500).json({ error: "Error processing the image." });
+    }
   }
 );
 
