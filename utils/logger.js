@@ -1,4 +1,14 @@
-const { createLogger, transports, format } = require('winston');
+const { format } = require("winston");
+const winston = require("winston");
+require("winston-daily-rotate-file");
+
+const transports = new winston.transports.DailyRotateFile({
+  filename: "logs/server-%DATE%.log",
+  datePattern: "YYYY-MM-DD-HH",
+  zippedArchive: true,
+  maxSize: "20m",
+  maxFiles: "14d",
+});
 
 const errorStackFormat = format((info) => {
   if (info instanceof Error) {
@@ -10,17 +20,11 @@ const errorStackFormat = format((info) => {
   return info;
 });
 
-const logger = createLogger({
-  level: 'info',
-  format: format.combine(
-    format.timestamp(), // Add timestamp to logs
-    format.json(), // Formats the log output as JSON
-    errorStackFormat()  // Include error stack details in the logs
-  ),
-  transports: [
-    new transports.File({ filename: 'error.log', level: 'error' }), // Log error messages to error.log
-    new transports.File({ filename: 'combined.log' }), // Log all messages to combined.log
-  ],
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports: transports,
+  exitOnError: false,
 });
 
 // Create a middleware function to log incoming requests
@@ -30,14 +34,12 @@ requestLogger = (req, res, next) => {
     body: req.body,
     url: req.originalUrl,
     timestamp: new Date(),
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     clientIP: req.ip,
   });
-  logger.error({
-
-  })
+  logger.error({});
   next();
-}
+};
 
 // Custom error handler middleware to log errors
 function errorLogger(err, req, res, next) {
@@ -45,7 +47,7 @@ function errorLogger(err, req, res, next) {
     message: err.message,
     stack: err.stack,
     timestamp: new Date(),
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     clientIP: req.ip,
   });
   next(err);

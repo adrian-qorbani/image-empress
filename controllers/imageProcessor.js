@@ -35,16 +35,6 @@ compressorRouters.post(
     const { buffer, originalname, size } = request.file;
     const { quality, format, width, height } = request.body;
 
-    // for logging
-    // let currentDate = new Date().toISOString();
-    // logger.info(
-    //   "Request Content",
-    //   `date: ${currentDate}: `,
-    //   request.method,
-    //   request.body,
-    //   request.file
-    // );
-
     try {
       const originalSizeKB = Math.round(size / 1024);
       const timestamp = new Date().toISOString();
