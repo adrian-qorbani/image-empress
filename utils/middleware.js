@@ -1,6 +1,13 @@
 const { logger } = require("./logger");
 const multer = require("multer");
+const rateLimit = require('express-rate-limit');
 
+// limit requests with express rate limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100,
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+});
 
 // };
 const upload = multer({
@@ -43,4 +50,5 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   upload,
+  limiter
 };
