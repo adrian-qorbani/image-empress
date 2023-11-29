@@ -1,7 +1,7 @@
 const compressorRouters = require("express").Router();
 const sharp = require("sharp");
 const fs = require("fs");
-const { upload } = require("../utils/uploadImage");
+const { upload } = require("../utils/middleware");
 const { logger } = require("../utils/logger");
 
 // Main Image Upload Route

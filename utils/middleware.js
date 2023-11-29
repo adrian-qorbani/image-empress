@@ -1,23 +1,28 @@
 const { logger } = require("./logger");
+const multer = require("multer");
 
-// const requestLogger = (request, response, next) => {
-//   logger.info("---------------");
-//   logger.info(new Date().toISOString());
-//   logger.info("Method:", request.method);
-//   logger.info("Path:  ", request.path);
-//   logger.info("Body:  ", request.body);
-//   logger.info("---------------");
-//   logger.info("Request:  ", request.file);
-//   logger.info("---------------");
-//   next();
+
 // };
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true); // Accept file
+    } else {
+      // const error = new Error('Incorrect file format (must be an image)');
+      // console.error('File rejected:', error.message);
+      cb(null, false);
+    }
+  },
+});
 
-function requestLogger(req, res, next) {
+const requestLogger = (req, res, next) => {
   logger.info({
     method: req.method,
     url: req.originalUrl,
     timestamp: new Date(),
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     clientIP: req.ip,
   });
   next();
@@ -35,7 +40,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === "Incorrect file format") {
     return response.status(401).send({ error: "Unauthorized file format." });
   } else if (error.name === "TypeError") {
-    return response.status(401).send({error: "Invalid request."})
+    return response.status(401).send({ error: "Invalid request." });
   }
   next(error);
 };
@@ -44,4 +49,5 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
+  upload,
 };
