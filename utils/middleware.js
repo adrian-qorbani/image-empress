@@ -1,16 +1,27 @@
-const logger = require("./logger");
+const { logger } = require("./logger");
 
-const requestLogger = (request, response, next) => {
-  logger.info("---");
-  logger.info(new Date().toISOString());
-  logger.info("Method:", request.method);
-  logger.info("Path:  ", request.path);
-  logger.info("Body:  ", request.body);
-  logger.info("---");
-  logger.info("Request:  ", request.file);
-  logger.info("---");
+// const requestLogger = (request, response, next) => {
+//   logger.info("---------------");
+//   logger.info(new Date().toISOString());
+//   logger.info("Method:", request.method);
+//   logger.info("Path:  ", request.path);
+//   logger.info("Body:  ", request.body);
+//   logger.info("---------------");
+//   logger.info("Request:  ", request.file);
+//   logger.info("---------------");
+//   next();
+// };
+
+function requestLogger(req, res, next) {
+  logger.info({
+    method: req.method,
+    url: req.originalUrl,
+    timestamp: new Date(),
+    userAgent: req.get('User-Agent'),
+    clientIP: req.ip,
+  });
   next();
-};
+}
 
 const unknownEndpoint = (request, response) => {
   response.status(401).send({ error: "Error 401: Unauthorized." });
