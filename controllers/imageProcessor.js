@@ -19,9 +19,7 @@ compressorRouters.post(
       userAgent: request.get("User-Agent"),
       clientIP: request.ip,
     });
-
-    console.log("YOLO!")
-
+    
     if (!request.file) {
       return response.status(401).send({
         message: "No file received or unauthorized file type",
