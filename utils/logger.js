@@ -28,7 +28,7 @@ const logger = winston.createLogger({
 });
 
 // Create a middleware function to log incoming requests
-requestLogger = (req, res, next) => {
+const requestLogger = (req, res, next) => {
   logger.info({
     method: req.method,
     body: req.body,
@@ -53,4 +53,13 @@ function errorLogger(err, req, res, next) {
   next(err);
 }
 
-module.exports = { logger, requestLogger, errorLogger };
+// Create a Winston logger
+const rateLimitLogger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'logs/rate-limit.log' })
+  ]
+});
+
+module.exports = { logger, requestLogger, errorLogger, rateLimitLogger };

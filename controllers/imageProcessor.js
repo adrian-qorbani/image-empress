@@ -3,6 +3,7 @@ const sharp = require("sharp");
 const fs = require("fs");
 const { upload } = require("../utils/middleware");
 const { logger } = require("../utils/logger");
+const { fileDir } = require("../utils/date")
 
 // Main Image Upload Route
 compressorRouters.post(
@@ -19,16 +20,24 @@ compressorRouters.post(
       clientIP: request.ip,
     });
 
+    console.log("YOLO!")
+
     if (!request.file) {
       return response.status(401).send({
         message: "No file received or unauthorized file type",
         success: false,
       });
     }
-    // logger.info(request)
+
     fs.access("./uploads", (error) => {
       if (error) {
         fs.mkdirSync("./uploads");
+      }
+    });
+
+    fs.access(`./uploads/${fileDir}`, (error) => {
+      if (error) {
+        fs.mkdirSync(`./uploads/${fileDir}`);
       }
     });
 
@@ -51,10 +60,10 @@ compressorRouters.post(
       await sharp(buffer)
         .toFormat(format, { quality: parseInt(quality) })
         .resize(newWidth, newHight)
-        .toFile("./uploads/" + ref);
-      const link = `http://localhost:3001/uploads/${ref}`;
+        .toFile(`./uploads/${fileDir}/${ref}`);
+      const link = `http://localhost:3001/uploads/${fileDir}/${ref}`;
 
-      const compressedImageStats = fs.statSync("./uploads/" + ref);
+      const compressedImageStats = fs.statSync(`./uploads/${fileDir}/${ref}`);
       const compressedSizeKB = Math.round(compressedImageStats.size / 1024);
 
       const sizeComparisonKB = Math.floor(
@@ -65,6 +74,8 @@ compressorRouters.post(
         response.set({ "Content-Type": `image/${format}` });
       }
 
+      // Set a timeout to remove the uploaded image after 15 minutes
+
       return response.json({
         imageUrl: link,
         originalSize: originalSizeKB,
@@ -72,16 +83,15 @@ compressorRouters.post(
         comparison: sizeComparisonKB,
       });
     } catch (error) {
-      // console.error("Error processing image:", error);
       logger.error("Error processing image::", error);
       response.status(500).json({ error: "Error processing the image." });
     }
   }
 );
 
-compressorRouters.get("/uploads/:filename", (request, response) => {
+compressorRouters.get(`/uploads/${fileDir}/:filename`, (request, response) => {
   const { filename } = request.params;
-  const filePath = `./uploads/${filename}`;
+  const filePath = `./uploads/${fileDir}/${filename}`;
 
   response.download(filePath, (error) => {
     if (error) {
@@ -89,6 +99,7 @@ compressorRouters.get("/uploads/:filename", (request, response) => {
       response.status(500).json({ message: "Error downloading file." });
     }
   });
+
 });
 
 module.exports = compressorRouters;

@@ -127,3 +127,50 @@ describe("Image Compression Endpoint", () => {
     expect(compressedImageSize).toBeLessThan(originalImageSize);
   });
 });
+
+describe('Rate limiting', () => {
+  it.skip('Rate limiter should restrict number of requests', async () => {
+
+    const testImagePath = `${__dirname}/dummies/dummy_img.png`; 
+
+    const response0 = await api
+      .post("/imageapi")
+      .field("quality", "10")
+      .field("format", "jpeg")
+      .field("width", "800") 
+      .field("height", "600") 
+      .attach("image", testImagePath)
+
+      const response1 = await api
+      .post("/imageapi")
+      .field("quality", "10")
+      .field("format", "jpeg")
+      .field("width", "800") 
+      .field("height", "600") 
+      .attach("image", testImagePath)
+
+      const response2 = await api
+      .post("/imageapi")
+      .field("quality", "10")
+      .field("format", "jpeg")
+      .field("width", "800") 
+      .field("height", "600") 
+      .attach("image", testImagePath)
+
+      const response3 = await api
+      .post("/imageapi")
+      .field("quality", "10")
+      .field("format", "jpeg")
+      .field("width", "800") 
+      .field("height", "600") 
+      .attach("image", testImagePath)
+
+
+    // Expect the third request to be rate limited
+    expect(response0.status).toBe(200);
+    expect(response1.status).toBe(200);
+    expect(response2.status).toBe(200);
+    expect(response3.status).toBe(429);
+    expect(response3.body.message).toBe('Too many requests from this IP, please try again later.');
+  });
+});

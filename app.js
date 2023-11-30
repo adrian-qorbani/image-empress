@@ -9,12 +9,12 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(middleware.limiter);
 app.use("/static", express.static("uploads"));
 app.use("/", compressorRouter);
 app.use(middleware.requestLogger);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
-app.use(middleware.limiter);
 
 
 module.exports = app;
