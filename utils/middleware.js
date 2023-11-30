@@ -16,10 +16,6 @@ const limiter = rateLimit({
 }
 );
 
-const test = () => {
-  console.log("YOOLOOO")
-}
-
 // };
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -62,5 +58,4 @@ module.exports = {
   errorHandler,
   upload,
   limiter,
-  test
 };
