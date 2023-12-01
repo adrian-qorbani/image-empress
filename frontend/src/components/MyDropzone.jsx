@@ -13,6 +13,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Modal from "./Modal";
 import { failNotify, successNotify } from "./misc/toastNotification";
+import {
+  baseStyle,
+  focusedStyle,
+  acceptStyle,
+  rejectStyle,
+} from "./styles/DropboxStyle";
 
 import axios from "axios";
 
@@ -36,34 +42,6 @@ const MyDropzone = () => {
     setQuality(newQuality); // Update state with the new slider value
   };
 
-  const baseStyle = {
-    alignItems: "center",
-    padding: "3px",
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#c57e96",
-    borderStyle: "dashed",
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    color: "#bdbdbd",
-    outline: "none",
-    transition: "border .24s ease-in-out",
-    // fontSize: "7rem",
-    height: "26vh",
-    gap: "0",
-  };
-
-  const focusedStyle = {
-    borderColor: "#c2185b",
-  };
-
-  const acceptStyle = {
-    borderColor: "#3daf6c",
-  };
-
-  const rejectStyle = {
-    borderColor: "#ff1744",
-  };
-
   const clearAll = () => {
     setDownloadLinks([]);
     setUploadProgress(0);
@@ -72,13 +50,14 @@ const MyDropzone = () => {
   const onDrop = useCallback(
     async (acceptedFiles) => {
       setImageFile(acceptedFiles[0]);
-      // if (acceptedFiles.length > 3) {
-      //   failNotify("Exceeded number of uploads.");
-      // } else {
+      if (acceptedFiles.length > 9) {
+        failNotify(
+          "Exceeded number of uploads. Use clear queue to start again."
+        );
+      }
       const myFormData = new FormData();
       acceptedFiles.forEach((file, index) => {
         setCompressedImages(file.size);
-
         console.log(file);
         myFormData.append(`image`, file);
         myFormData.append("format", format);
@@ -108,7 +87,7 @@ const MyDropzone = () => {
         );
         if (response.data && response.data.imageUrl) {
           // successNotify();
-          successNotify("Image is optimized and ready to download.")
+          successNotify("Image is optimized and ready to download.");
           console.log("here's your data:", response.data);
           setFiles((files) => [
             ...files,
@@ -372,9 +351,7 @@ const MyDropzone = () => {
             </label>
             <label for="formatOutput">
               Output Format: {format}{" "}
-              <abbr title="Preferred image format output.">
-                ⓘ
-              </abbr>{" "}
+              <abbr title="Preferred image format output.">ⓘ</abbr>{" "}
             </label>
             <select
               id="formatOutput"

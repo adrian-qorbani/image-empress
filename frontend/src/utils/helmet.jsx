@@ -1,9 +1,9 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const MyHelmet = () => {
   return (
     <div>
-      <Helmet>
+      <Helmet prioritizeSeoTags>
         <title>
           Image Empress | Reduce size, compress or resize images online FREE and
           FAST
@@ -26,10 +26,7 @@ const MyHelmet = () => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www..com" />
-        <meta
-          property="og:image"
-          content="https://www..com/og-image.jpg"
-        />
+        <meta property="og:image" content="https://www..com/og-image.jpg" />
       </Helmet>
     </div>
   );
