@@ -14,7 +14,6 @@ const BuyMeACoffee = () => {
           style={{
             height: "60px",
             width: "217px",
-            border: "2px solid",
           }}
         />
       </a>
