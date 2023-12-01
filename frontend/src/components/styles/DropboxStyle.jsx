@@ -10,8 +10,11 @@ export const baseStyle = {
   color: "#bdbdbd",
   outline: "none",
   transition: "border .24s ease-in-out",
-  height: "26vh",
+  minHeight: "26vh",
   gap: "0",
+  "@media(maxWidth: 600px)": {
+    height: "80vh", 
+  },
 };
 
 export const focusedStyle = {

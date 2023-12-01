@@ -17,6 +17,7 @@ This fullstack web application is designed to compress, optimize, resize and con
 - [x] upload sanitization and validation
 - [x] implant Redux
 - [x] write backend tests for advanced settings
+- [ ] fix responsive screens bugs
 - [ ] write extensive tests
 - [ ] make a better website layout
 - [ ] SEO/Accessability optimization
@@ -26,7 +27,8 @@ This fullstack web application is designed to compress, optimize, resize and con
 - [ ] implant French, German, Spanish and Russian locales
 - [ ] write extensive tests
 
-
+# To-Do List - UI/UX
+- [ ] make a worthy logo
 
 
 

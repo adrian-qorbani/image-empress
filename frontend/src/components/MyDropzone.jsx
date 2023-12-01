@@ -68,18 +68,15 @@ const MyDropzone = () => {
       // V2.0
       console.log(myFormData);
       // V2.0
+      const config = {
+        onUploadProgress: (progressEvent) => {
+          setUploadProgress(null);
+        },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
       try {
-        const config = {
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setUploadProgress(percentCompleted);
-          },
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        };
         const response = await axios.post(
           "http://localhost:3001/imageapi",
           myFormData,
@@ -88,6 +85,7 @@ const MyDropzone = () => {
         if (response.data && response.data.imageUrl) {
           // successNotify();
           successNotify("Image is optimized and ready to download.");
+          setUploadProgress(100);
           console.log("here's your data:", response.data);
           setFiles((files) => [
             ...files,
@@ -184,7 +182,7 @@ const MyDropzone = () => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -288,13 +286,7 @@ const MyDropzone = () => {
         </div>
       </div>
       <div className="progress-upload">
-        {uploadProgress > 0 ? (
-          <>
-            <progress value={uploadProgress} max="100" />
-          </>
-        ) : (
-          <></>
-        )}
+        <progress value={uploadProgress} />
       </div>
       {downloadLinks.length < 10 ? (
         <>
@@ -318,12 +310,20 @@ const MyDropzone = () => {
         </>
       )}
       <ToastContainer className="foo" style={{ width: "100vh" }} />
-      {downloadLinks.length < 4 ? (
+      {downloadLinks.length < 10 ? (
         <>
           <div
             className="my-dropzone"
             {...getRootProps({ style, className: "dropzone" })}
           >
+            {uploadProgress == null ? (
+              <div className="wait-div">
+                {" "}
+                Processing the image, please wait ...
+              </div>
+            ) : (
+              <></>
+            )}
             {linkRenderer()}
           </div>
         </>
@@ -405,8 +405,8 @@ const MyDropzone = () => {
               quality, the lower image size and lesser image quality, default is
               80% in which there's almost no quality loss and image size is
               reduced and optimized appropriately. By default output format is
-              WebP, however you can also convert the format. To learn more
-              please checkout <a href="">FAQ</a> page.
+              WebP, however you can also convert the format. To keep
+              width/height as original, leave them at 0.
             </p>
           </div>
         </Modal>
