@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useCallback,
-  useState,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUpload } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +12,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Modal from "./Modal";
+import { failNotify, successNotify } from "./misc/toastNotification";
 
 import axios from "axios";
 
@@ -35,18 +30,6 @@ const MyDropzone = () => {
   const [quality, setQuality] = useState(80);
   const [format, setFormat] = useState("webp");
   // V2.0
-
-  const successNotify = () => {
-    toast.success("Your Image is compressed and ready to download !", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-
-  const failNotify = (msg) => {
-    toast.error(`${msg}`, {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
 
   const handleSliderChange = (event) => {
     const newQuality = event.target.value;
@@ -93,7 +76,6 @@ const MyDropzone = () => {
       //   failNotify("Exceeded number of uploads.");
       // } else {
       const myFormData = new FormData();
-      // myFormData.onerror = () => console.log("file reading has failed");
       acceptedFiles.forEach((file, index) => {
         setCompressedImages(file.size);
 
@@ -125,7 +107,8 @@ const MyDropzone = () => {
           config
         );
         if (response.data && response.data.imageUrl) {
-          successNotify();
+          // successNotify();
+          successNotify("Image is optimized and ready to download.")
           console.log("here's your data:", response.data);
           setFiles((files) => [
             ...files,
@@ -145,8 +128,6 @@ const MyDropzone = () => {
       } catch (error) {
         failNotify("There's a problem with server. Please try again later.");
       }
-      // }
-      //
     },
     [quality, format, width, length, height]
   );
@@ -166,14 +147,9 @@ const MyDropzone = () => {
       "image/webp": [],
     },
     multiple: false,
-    maxFiles: 3,
+    maxFiles: 1,
     noClick: true,
   });
-
-  // const imageThumbnail = useMemo(() => {
-  //   // console.log()
-  //   return uploadedImages.map((file, index) => <div key={index}></div>);
-  // }, [uploadedImages, compressedImages]);
 
   const style = useMemo(
     () => ({
@@ -237,7 +213,6 @@ const MyDropzone = () => {
   };
   const linkRenderer = () => {
     return downloadLinks.length > 0 ? (
-      // <div className="download-box">
       <Slider {...settings} className="my-slider">
         {console.log("FILES ARE ", files)}
         {console.log("UPLO ARE ", uploadedImages)}
@@ -271,17 +246,10 @@ const MyDropzone = () => {
                 </a>
               </div>
             </div>
-            {/* <div className="download-link">
-              <p>412 KB (-69%)</p>
-              <a href={link} target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faDownload} />
-              </a>
-            </div> */}
           </div>
         ))}
       </Slider>
     ) : (
-      // {/* </div> */}
       <p></p>
     );
   };
@@ -291,7 +259,7 @@ const MyDropzone = () => {
       <div className="grid">
         <div>
           {" "}
-          {downloadLinks.length < 4 ? (
+          {downloadLinks.length < 10 ? (
             <>
               <a href="#" role="button" onClick={open} className="outline">
                 <FontAwesomeIcon icon={faCloudUpload} /> Select Images
@@ -349,7 +317,7 @@ const MyDropzone = () => {
           <></>
         )}
       </div>
-      {downloadLinks.length < 4 ? (
+      {downloadLinks.length < 10 ? (
         <>
           {" "}
           <input className="dropzone-i" {...getInputProps} />
@@ -370,7 +338,7 @@ const MyDropzone = () => {
           </p>
         </>
       )}
-      <ToastContainer className="foo" style={{ width: "90vh" }} />
+      <ToastContainer className="foo" style={{ width: "100vh" }} />
       {downloadLinks.length < 4 ? (
         <>
           <div
@@ -382,28 +350,15 @@ const MyDropzone = () => {
         </>
       ) : (
         <>
-          <div style={style}>
-            <p>
-              {" "}
-              Reached maximum amount of files. Click{" "}
-              <strong>'Clear All'</strong> to start new.
-            </p>
-            {linkRenderer()}
-          </div>
+          <div style={style}>{linkRenderer()}</div>
         </>
       )}
       {isModalOpen && (
         <Modal onClose={closeModal} title={"Output Preferences"}>
-          {/* <div>This is the content of the modal.</div> */}
           <div>
             <label for="range">
               Quality{" "}
-              <abbr
-                title="Your preferred quality for compressed image. The lower the value,
-              the higher compression rate and more reduced size for image."
-              >
-                ⓘ
-              </abbr>{" "}
+              <abbr title="Preferred quality for the output image.">ⓘ</abbr>{" "}
               {quality}
               <input
                 type="range"
@@ -415,7 +370,12 @@ const MyDropzone = () => {
                 onChange={handleSliderChange}
               />
             </label>
-            <label for="formatOutput">Output Format: {format}</label>
+            <label for="formatOutput">
+              Output Format: {format}{" "}
+              <abbr title="Preferred image format output.">
+                ⓘ
+              </abbr>{" "}
+            </label>
             <select
               id="formatOutput"
               onChange={(e) => {
@@ -429,42 +389,48 @@ const MyDropzone = () => {
               <option value="gif">GIF</option>
               <option value="avif">AVIF</option>
             </select>
-            <label for="image-width">
-              Width
-              <input
-                className="settings-input"
-                type="text"
-                id="image-width"
-                name="image-width"
-                placeholder={width}
-                onChange={(e) => {
-                  setWidth(e.target.value);
-                }}
-              />
-            </label>
-            <label for="image-height">
-              Height
-              <input
-                className="settings-input"
-                type="text"
-                id="image-height"
-                name="image-height"
-                placeholder={height}
-                onChange={(e) => {
-                  setHeight(e.target.value);
-                }}
-              />
-            </label>
-            <label for="switch">
-              <input
-                type="checkbox"
-                id="switch"
-                name="switch"
-                role="switch"
-                disabled
-              />
-              Enable Resizing
-            </label>
+            <div class="grid">
+              <div>
+                {" "}
+                <label for="image-width">
+                  Width(in pixels)
+                  <input
+                    className="settings-input"
+                    type="text"
+                    id="image-width"
+                    name="image-width"
+                    placeholder={width}
+                    onChange={(e) => {
+                      setWidth(e.target.value);
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                {" "}
+                <label for="image-height">
+                  Height(in pixels)
+                  <input
+                    className="settings-input"
+                    type="text"
+                    id="image-height"
+                    name="image-height"
+                    placeholder={height}
+                    onChange={(e) => {
+                      setHeight(e.target.value);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+            <p>
+              Quality represents optimization rate for your image. The lower the
+              quality, the lower image size and lesser image quality, default is
+              80% in which there's almost no quality loss and image size is
+              reduced and optimized appropriately. By default output format is
+              WebP, however you can also convert the format. To learn more
+              please checkout <a href="">FAQ</a> page.
+            </p>
           </div>
         </Modal>
       )}
