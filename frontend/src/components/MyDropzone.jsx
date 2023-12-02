@@ -23,6 +23,7 @@ import {
 import axios from "axios";
 
 const MyDropzone = () => {
+  // General States
   const [imageFile, setImageFile] = useState(null);
   const [downloadLinks, setDownloadLinks] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -30,16 +31,15 @@ const MyDropzone = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [files, setFiles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // V2.0
+  // Image States
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [quality, setQuality] = useState(80);
   const [format, setFormat] = useState("webp");
-  // V2.0
 
   const handleSliderChange = (event) => {
     const newQuality = event.target.value;
-    setQuality(newQuality); // Update state with the new slider value
+    setQuality(newQuality); 
   };
 
   const clearAll = () => {
