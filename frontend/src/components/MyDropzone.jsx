@@ -78,7 +78,8 @@ const MyDropzone = () => {
       };
       try {
         const response = await axios.post(
-          "http://localhost:3001/imageapi",
+          // "http://localhost:3001/imageapi",
+          "/imageapi",
           myFormData,
           config
         );

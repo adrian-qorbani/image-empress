@@ -1,0 +1,10 @@
+{
+  "lang":"Language",
+  "headerText": "Welcome to ImageEmpress",
+  "headerDesc1":"Optimize your images ",
+  "headerDesc2":"FAST",
+  "mainDesc":"ImageEmpress offers lightning-fast image optimization and compression processing, capable of efficiently compressing and reduce the size of up to 10 large images into common formats; JPEG, PNG, WebP, GIF and AVIF. You can edit the image parameters and format to your preferences. All processed images are deleted 30 minutes after upload.",
+  "selectImgs":"Select the Images"
+
+
+}

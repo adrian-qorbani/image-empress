@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const { rateLimitLogger } = require('./logger')
 
 // limit requests with express rate limiter
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 30,

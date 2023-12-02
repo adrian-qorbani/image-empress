@@ -27,6 +27,7 @@ const MyHelmet = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www..com" />
         <meta property="og:image" content="https://www..com/og-image.jpg" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:;"></meta>
       </Helmet>
     </div>
   );
