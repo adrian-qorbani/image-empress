@@ -19,10 +19,12 @@ import {
   acceptStyle,
   rejectStyle,
 } from "./styles/DropboxStyle";
+import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 
 const MyDropzone = () => {
+  const { t } = useTranslation();
   // General States
   const [imageFile, setImageFile] = useState(null);
   const [downloadLinks, setDownloadLinks] = useState([]);
@@ -220,7 +222,7 @@ const MyDropzone = () => {
                   rel="noopener noreferrer"
                   download
                 >
-                  <FontAwesomeIcon icon={faDownload} /> Download
+                  <FontAwesomeIcon icon={faDownload} /> {t("btn-download")}
                 </a>
               </div>
             </div>
@@ -240,7 +242,7 @@ const MyDropzone = () => {
           {downloadLinks.length < 10 ? (
             <>
               <a href="#" role="button" onClick={open} className="outline">
-                <FontAwesomeIcon icon={faCloudUpload} /> Select Images
+                <FontAwesomeIcon icon={faCloudUpload} /> {t("btn-select")}
               </a>
             </>
           ) : (
@@ -256,7 +258,7 @@ const MyDropzone = () => {
                 className="outline"
                 disabled
               >
-                <FontAwesomeIcon icon={faCloudUpload} /> Select Images
+                <FontAwesomeIcon icon={faCloudUpload} /> {t("btn-select")}
               </a>
             </>
           )}
@@ -271,7 +273,7 @@ const MyDropzone = () => {
             }}
             className="secondary outline"
           >
-            <FontAwesomeIcon icon={faScrewdriverWrench} /> Settings
+            <FontAwesomeIcon icon={faScrewdriverWrench} /> {t("btn-settings")}
           </a>
         </div>
         <div>
@@ -282,7 +284,7 @@ const MyDropzone = () => {
             onClick={() => clearAll()}
             className="secondary outline"
           >
-            <FontAwesomeIcon icon={faEraser} /> Clear Queue
+            <FontAwesomeIcon icon={faEraser} /> {t("btn-clear")}
           </a>
         </div>
       </div>
@@ -294,19 +296,15 @@ const MyDropzone = () => {
           {" "}
           <input className="dropzone-i" {...getInputProps} />
           <p>
-            (<FontAwesomeIcon icon={faDownload} /> Drag 'n' drop images in box
-            below, or click{" "}
-            <strong>
-              '<FontAwesomeIcon icon={faCloudUpload} /> Select Images'
-            </strong>{" "}
-            button)
+            <FontAwesomeIcon icon={faDownload} /> {t("dropz-desc")}
           </p>
         </>
       ) : (
         <>
           {" "}
           <p>
-            Reached maximum amount of files. Click 'Clear Queue' to start anew.
+            {/* Reached maximum amount of files. Click 'Clear Queue' to start anew. */}
+            {t("limit-desc")}
           </p>
         </>
       )}
@@ -320,7 +318,8 @@ const MyDropzone = () => {
             {uploadProgress == null ? (
               <div className="wait-div">
                 {" "}
-                Processing the image, please wait ...
+                {/* Processing the image, please wait ... */}
+                {t("processing-desc")}
               </div>
             ) : (
               <></>
@@ -337,7 +336,7 @@ const MyDropzone = () => {
         <Modal onClose={closeModal} title={"Output Preferences"}>
           <div>
             <label for="range">
-              Quality{" "}
+            {t("pref-quality")}{" "}
               <abbr title="Preferred quality for the output image.">ⓘ</abbr>{" "}
               {quality}
               <input
@@ -351,7 +350,7 @@ const MyDropzone = () => {
               />
             </label>
             <label for="formatOutput">
-              Output Format: {format}{" "}
+            {t("pref-output-format")}: {format}{" "}
               <abbr title="Preferred image format output.">ⓘ</abbr>{" "}
             </label>
             <select
@@ -360,7 +359,7 @@ const MyDropzone = () => {
                 setFormat(e.target.value);
               }}
             >
-              <option value="webp">(Default)</option>
+              <option value="webp">({t("pref-default")})</option>
               <option value="webp">WebP</option>
               <option value="jpeg">JPEG</option>
               <option value="png">PNG</option>
@@ -371,7 +370,7 @@ const MyDropzone = () => {
               <div>
                 {" "}
                 <label for="image-width">
-                  Width(in pixels)
+                {t("pref-width")}
                   <input
                     className="settings-input"
                     type="text"
@@ -387,7 +386,7 @@ const MyDropzone = () => {
               <div>
                 {" "}
                 <label for="image-height">
-                  Height(in pixels)
+                {t("pref-height")}
                   <input
                     className="settings-input"
                     type="text"
@@ -402,12 +401,7 @@ const MyDropzone = () => {
               </div>
             </div>
             <p>
-              Quality represents optimization rate for your image. The lower the
-              quality, the lower image size and lesser image quality, default is
-              80% in which there's almost no quality loss and image size is
-              reduced and optimized appropriately. By default output format is
-              WebP, however you can also convert the format. To keep
-              width/height as original, leave them at 0.
+            {t("pref-desc")}
             </p>
           </div>
         </Modal>

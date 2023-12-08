@@ -4,7 +4,21 @@
   "headerDesc1":"Optimize your images ",
   "headerDesc2":"FAST",
   "mainDesc":"ImageEmpress offers lightning-fast image optimization and compression processing, capable of efficiently compressing and reduce the size of up to 10 large images into common formats; JPEG, PNG, WebP, GIF and AVIF. You can edit the image parameters and format to your preferences. All processed images are deleted 30 minutes after upload.",
-  "selectImgs":"Select the Images"
+  "selectImgs":"Select the Images",
+  "coffeeDesc":"Do you like ImageEmpress? ImageEmpress services are free, and I plan to turn this website into a full-fledged online image editor with modern features over time. You can support me with just a small cup of coffee :)",
+  "btn-select": "Select Images",
+  "btn-settings": "Settings",
+  "btn-clear": "Clear Queue",
+  "dropz-desc": "Drag 'n' drop images in box below, or click 'Select Images' button",
+  "limit-desc": "Reached maxiumum abount of optomized images, please click on 'Clear Queue'.",
+  "btn-download": "Download",
+  "processing-desc": "Processing the image, please wait ...",
 
-
+  "pref-quality": "Quality:",
+  "pref-output-format": "Output Format:",
+  "pref-default": "Default",
+  "pref-width": "Width (in pixels):",
+  "pref-height": "Height (in pixels):",
+  "pref-desc": "Quality represents optimization rate for your image. The lower the quality, the lower image size and lesser image quality, default is 80% in which there's almost no quality loss and image size is reduced and optimized appropriately. By default output format is WebP, however you can also convert the format. To keep width/height as original, leave them at 0.",
+  "pref-close": "CLOSE"
 }

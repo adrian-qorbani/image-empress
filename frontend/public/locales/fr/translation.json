@@ -4,5 +4,23 @@
   "headerDesc1":"fiable et",
   "headerDesc2":"RAPIDE",
   "mainDesc":"FotoFusion offre un traitement de compression d'image ultra-rapide, capable de compresser et de réduire efficacement jusqu'à 10 grandes images dans des formats courants ; JPEG, PNG, WebP, GIF et AVIF. Vous pouvez modifier les paramètres de l'image selon vos préférences. Toutes les images traitées sont supprimées 30 minutes après le téléchargement.",
-  "selectImgs":"Sélectionnez des Images"
+  "selectImgs":"Sélectionnez des Images",
+  "coffeeDesc":"Aimez-vous ImageEmpress? Les services ImageEmpress sont gratuits et je prévois de transformer ce site Web en un éditeur d'images en ligne à part entière doté de fonctionnalités modernes au fil du temps. Vous pouvez me soutenir avec juste une petite tasse de café :)",
+  "btn-select": "Sélectionnez des images",
+  "btn-settings": "Préférences",
+  "btn-clear": "Effacer la file d'attente",
+  "dropz-desc": "Faites glisser et déposez les images dans la case ci-dessous ou cliquez sur le bouton « Sélectionner les images »",
+  "limit-desc": "Nombre maximum d'images optimisées atteint, veuillez cliquer sur 'Effacer la file d'attente'.",
+  "btn-download": "Télécharger",
+  "processing-desc": "Traitement de l'image, veuillez patienter...",
+
+  "pref-quality": "Qualité:",
+  "pref-output-format": "Format de sortie:",
+  "pref-default": "Défaut",
+  "pref-width": "Largeur (en pixels):",
+  "pref-height": "Hauteur (en pixels):",
+  "pref-desc": "La qualité représente le taux d'optimisation de votre image. Plus la qualité est faible, plus la taille de l'image est faible et la qualité de l'image moindre, la valeur par défaut est de 80 %, dans laquelle il n'y a presque aucune perte de qualité et la taille de l'image est réduite et optimisée de manière appropriée. Par défaut, le format de sortie est WebP, mais vous pouvez également convertir le format. Pour conserver la largeur/hauteur telle qu'originale, laissez-les à 0.",
+  "pref-close": "FERMER"
+
+
 }
