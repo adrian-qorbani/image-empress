@@ -20,7 +20,10 @@
   "pref-width": "Largeur (en pixels):",
   "pref-height": "Hauteur (en pixels):",
   "pref-desc": "La qualité représente le taux d'optimisation de votre image. Plus la qualité est faible, plus la taille de l'image est faible et la qualité de l'image moindre, la valeur par défaut est de 80 %, dans laquelle il n'y a presque aucune perte de qualité et la taille de l'image est réduite et optimisée de manière appropriée. Par défaut, le format de sortie est WebP, mais vous pouvez également convertir le format. Pour conserver la largeur/hauteur telle qu'originale, laissez-les à 0.",
-  "pref-close": "FERMER"
+  "pref-close": "FERMER",
+
+  "notify-err": "Il y a un problème avec le serveur. Veuillez réessayer plus tard.",
+  "notify-suc": "L'image est optimisée et prête à être téléchargée."
 
 
 }

@@ -41,7 +41,7 @@ const MyDropzone = () => {
 
   const handleSliderChange = (event) => {
     const newQuality = event.target.value;
-    setQuality(newQuality); 
+    setQuality(newQuality);
   };
 
   const clearAll = () => {
@@ -53,9 +53,7 @@ const MyDropzone = () => {
     async (acceptedFiles) => {
       setImageFile(acceptedFiles[0]);
       if (acceptedFiles.length > 9) {
-        failNotify(
-          "Exceeded number of uploads. Use clear queue to start again."
-        );
+        failNotify(`${t("limit-desc")}`);
       }
       const myFormData = new FormData();
       acceptedFiles.forEach((file, index) => {
@@ -87,7 +85,7 @@ const MyDropzone = () => {
         );
         if (response.data && response.data.imageUrl) {
           // successNotify();
-          successNotify("Image is optimized and ready to download.");
+          successNotify(`${t("limit-suc")}`);
           setUploadProgress(100);
           console.log("here's your data:", response.data);
           setFiles((files) => [
@@ -106,7 +104,7 @@ const MyDropzone = () => {
           ]);
         }
       } catch (error) {
-        failNotify("There's a problem with server. Please try again later.");
+        failNotify(`${t("notify-err")}`);
       }
     },
     [quality, format, width, length, height]
@@ -336,7 +334,7 @@ const MyDropzone = () => {
         <Modal onClose={closeModal} title={"Output Preferences"}>
           <div>
             <label for="range">
-            {t("pref-quality")}{" "}
+              {t("pref-quality")}{" "}
               <abbr title="Preferred quality for the output image.">ⓘ</abbr>{" "}
               {quality}
               <input
@@ -350,7 +348,7 @@ const MyDropzone = () => {
               />
             </label>
             <label for="formatOutput">
-            {t("pref-output-format")}: {format}{" "}
+              {t("pref-output-format")}: {format}{" "}
               <abbr title="Preferred image format output.">ⓘ</abbr>{" "}
             </label>
             <select
@@ -370,7 +368,7 @@ const MyDropzone = () => {
               <div>
                 {" "}
                 <label for="image-width">
-                {t("pref-width")}
+                  {t("pref-width")}
                   <input
                     className="settings-input"
                     type="text"
@@ -386,7 +384,7 @@ const MyDropzone = () => {
               <div>
                 {" "}
                 <label for="image-height">
-                {t("pref-height")}
+                  {t("pref-height")}
                   <input
                     className="settings-input"
                     type="text"
@@ -400,9 +398,7 @@ const MyDropzone = () => {
                 </label>
               </div>
             </div>
-            <p>
-            {t("pref-desc")}
-            </p>
+            <p>{t("pref-desc")}</p>
           </div>
         </Modal>
       )}

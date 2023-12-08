@@ -20,5 +20,8 @@
   "pref-width": "Width (in pixels):",
   "pref-height": "Height (in pixels):",
   "pref-desc": "Quality represents optimization rate for your image. The lower the quality, the lower image size and lesser image quality, default is 80% in which there's almost no quality loss and image size is reduced and optimized appropriately. By default output format is WebP, however you can also convert the format. To keep width/height as original, leave them at 0.",
-  "pref-close": "CLOSE"
+  "pref-close": "CLOSE",
+
+  "notify-err": "There's a problem with server. Please try again later.",
+  "notify-suc": "Image is optimized and ready to download."
 }

@@ -33,6 +33,9 @@ const Header = () => {
                 <li>
                   <a onClick={(e) => changeLanguage("fr")}>French</a>
                 </li>
+                {/* <li>
+                  <a onClick={(e) => changeLanguage("fr")}>فارسی</a>
+                </li> */}
               </ul>
             </details>
           </li>
