@@ -26,15 +26,15 @@ const Section = () => {
             </h3>
           </hgroup>
           <p className="desc">
-            ImageEmpress offers <strong>lightning-fast</strong> image
+            {/* ImageEmpress offers <strong>lightning-fast</strong> image
             compression, optimization, format conversion and resizing, capable
             of efficiently compressing and reduce the size of up to <em>10</em>{" "}
             large images to common formats; <strong>JPEG</strong>,{" "}
             <strong>PNG</strong>, <strong>WebP</strong>, <strong>GIF</strong>{" "}
             and <strong>AVIF</strong>. You can edit the image parameters to your
             preference. All processed images are deleted from server after 30
-            minutes.
-            {/* {t("mainDesc")} */}
+            minutes. */}
+            {t("mainDesc")}
           </p>
         </div>
       </div>

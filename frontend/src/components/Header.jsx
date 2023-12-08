@@ -18,7 +18,7 @@ const Header = () => {
         </ul>
         <ul>
           <li>
-            {/* <details role="list" dir="rtl">
+            <details role="list" dir="rtl">
               <summary
                 aria-haspopup="listbox"
                 role="link"
@@ -34,7 +34,7 @@ const Header = () => {
                   <a onClick={(e) => changeLanguage("fr")}>French</a>
                 </li>
               </ul>
-            </details> */}
+            </details>
           </li>
           <li></li>
         </ul>
