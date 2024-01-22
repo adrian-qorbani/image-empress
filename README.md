@@ -43,36 +43,11 @@ npm install
 cd frontend/
 npm install
 
+## To-Do List
 
-
-
-
-# To-Do List - Backend
-
-- [x] APIs implanted
-- [x] fix image size comparison
-- [x] implant advanced output options for backend such as width and quality parameters
-- [x] write backend tests for advanced settings
-- [ ] write E2E tests for application
-
-# To-Do List - Frontend
-
-- [x] fix multiple image upload
-- [x] upload sanitization and validation
-- [x] implant Redux
-- [x] write backend tests for advanced settings
-- [ ] fix responsive screens bugs
-- [ ] write extensive tests
-- [ ] make a better website layout
-- [ ] SEO/Accessability optimization
-- [ ] Policy writing
-- [ ] add react-routing
-- [ ] write extensive tests
-- [ ] implant French, German, Spanish and Russian locales
-- [ ] write extensive tests
-
-# To-Do List - UI/UX
-- [ ] make a worthy logo
+- Adding integrated tests for frontend
+- Adding end-to-end test for both client and server
+- Changing repo name to Image-Empress
 
 
 
