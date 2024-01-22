@@ -7,7 +7,7 @@ const { rateLimitLogger } = require('./logger')
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: 600,
   message: 'Too many requests from this IP, please try again later.',
   handler: (req, res, next) => {
     rateLimitLogger.info(`Rate limit exceeded for IP: ${req.ip}, path: ${req.originalUrl}, time: ${new Date()}`);
