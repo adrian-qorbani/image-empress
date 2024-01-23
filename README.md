@@ -1,7 +1,9 @@
 # Image-Empress
 
-This fullstack web application is designed to compress, optimize, resize and convert format for images up to 50 megabyte size and compress them via express.js server (with Sharp lib). It's created using express.js (node) for server-side and React for client.
+This fullstack web application is designed to compress, optimize, resize and convert format for images up to 50 megabyte size and compress them via express.js server (with Sharp lib). It's created using express.js (node) for server-side and React for client. Output image is fully customizable, with user choosing its format, compression quality and width/height.
 
+
+![my screenshot](./screenshot.png)
 
 ## Features
 
