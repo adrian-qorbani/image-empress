@@ -4,7 +4,7 @@ const { logger } = require('./logger');
 
 const uploadDirectory = '../uploads';
 
-uploadsDirCleaner = () => {
+const uploadsDirCleaner = () => {
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);

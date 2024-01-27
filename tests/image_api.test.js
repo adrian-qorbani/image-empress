@@ -11,7 +11,6 @@ describe("Image Compression Endpoint", () => {
       .attach("image", `${__dirname}/dummies/dummy_img.png`)
       .expect(200)
       .expect("Content-Type", /application\/json/);
-    const downloadContent = serverResponse.body;
     const downloadLink = serverResponse.body.imageUrl;
     expect(downloadLink).toBeDefined();
   });

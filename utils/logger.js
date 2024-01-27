@@ -1,4 +1,4 @@
-const { format } = require("winston");
+// const { format } = require("winston");
 const winston = require("winston");
 require("winston-daily-rotate-file");
 
@@ -10,15 +10,15 @@ const transports = new winston.transports.DailyRotateFile({
   maxFiles: "14d",
 });
 
-const errorStackFormat = format((info) => {
-  if (info instanceof Error) {
-    return Object.assign({}, info, {
-      message: info.message,
-      stack: info.stack,
-    });
-  }
-  return info;
-});
+// const errorStackFormat = format((info) => {
+//   if (info instanceof Error) {
+//     return Object.assign({}, info, {
+//       message: info.message,
+//       stack: info.stack,
+//     });
+//   }
+//   return info;
+// });
 
 const logger = winston.createLogger({
   level: "info",

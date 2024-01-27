@@ -3,7 +3,6 @@ const middleware = require("./utils/middleware");
 const compressorRouter = require("./controllers/imageProcessor");
 const setSecurityHeaders = require('./utils/secuirtyMiddleware');
 const cors = require("cors");
-const helmet = require('helmet');
 const app = express();
 
 app.use(cors());

@@ -10,7 +10,7 @@ compressorRouters.post(
   "/imageapi",
   upload.single("image"),
 
-  async (request, response, next) => {
+  async (request, response) => {
     logger.info({
       method: request.method,
       body: request.body,
