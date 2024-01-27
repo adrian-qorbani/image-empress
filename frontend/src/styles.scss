@@ -2,10 +2,9 @@
 // $primary-600: #d81b60;
 // $primary-700: #c2185b;
 
-$primary-500: #845EC2;
+$primary-500: #845ec2;
 $primary-600: #7a50bd;
 $primary-700: #512d86;
-
 
 // Import Pico
 @import "@picocss/pico/scss/pico";
@@ -218,7 +217,8 @@ ul {
   opacity: 0.9;
 }
 
-.slick-prev:before, .slick-next:before {
+.slick-prev:before,
+.slick-next:before {
   color: #b1083b;
   font-size: 20px;
 }
@@ -231,7 +231,6 @@ ul {
 .thumb-article {
   // position: absolute;
   // margin-top: -150px;
-
 }
 
 .progress-upload {
@@ -276,32 +275,33 @@ ul {
 }
 
 .image-card .info p {
-  color: #fff; 
-
+  color: #fff;
 }
 
 .image-card .info p {
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 }
 
 .image-card .info a {
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 .comparison-span {
-  // color: $primary-800; 
+  // color: $primary-800;
   font-weight: bold;
 }
 
-body {
-  background-image: url("../paper1.svg");
-  background-size: 100% 100%;
-  -o-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: cover;
- }
-
- .wait-div {
+.wait-div {
   color: $primary-600;
   position: absolute;
- }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-image: url("../paper1.svg");
+    background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: cover;
+  }
+}
