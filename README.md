@@ -2,7 +2,7 @@
 
 This fullstack web application is designed to compress, optimize, resize and convert format for images up to 50 megabyte size and compress them via express.js server (with Sharp lib). It's created using express.js (node) for server-side and React for client. Output image is fully customizable, with user choosing its format, compression quality and width/height.
 
-See Live: [Live View](http://example.com).
+See Live: [Live View](https://imageempress.onrender.com).
 
 NOTE: As of March 1st 2024, my [Render Cloud Service](http://render.com) free tier account doesn't support disk usage, so uploading images doesn't work. In order to use it yourself, run the project on your machine.
 
