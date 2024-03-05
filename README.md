@@ -2,6 +2,9 @@
 
 This fullstack web application is designed to compress, optimize, resize and convert format for images up to 50 megabyte size and compress them via express.js server (with Sharp lib). It's created using express.js (node) for server-side and React for client. Output image is fully customizable, with user choosing its format, compression quality and width/height.
 
+See Live: [Live View](http://example.com).
+
+NOTE: As of March 1st 2024, my [Render Cloud Service](http://render.com) free tier account doesn't support disk usage, so uploading images doesn't work. In order to use it yourself, run the project on your machine.
 
 ![my screenshot](./screenshot.png)
 
@@ -29,7 +32,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository.
 
-git clone https://github.com/adrian-qorbani/pic_slimmer_backend.git
+git clone https://github.com/adrian-qorbani/image-empress.git
 
 2. Change into the project's directory.
 
